@@ -1,0 +1,328 @@
+Summarizing What We Learn Each Day
+----------------------------------
+Jan 6
+Default params
+Optional params
+Comments as documentation
+
+Jan 8
+Conditionally running things, so your imports don't get crazy.
+if __name__ == "__main__":
+    main() #wrap your "don't want everyone to run this" code in a function called main.
+Recursion
+Truthiness vs. Falsiness
+    FALSY VALUES: 0, empty string, empty container, None, False
+Memory shape
+    Code
+    Data
+    Heap
+    Stack: for function calls
+
+Jan 13
+Recursion as applied to square roots and towers of Hanoi
+Command-line arguments
+    sys.argv[0] = program name
+    sys.argv[1] = containers other parameters if any.
+
+print('Program = ', sys.argv[0])
+for arg in sys.argv[1:]:
+    print(arg)
+
+Modules, functions, classes, and objects all constitute their own scope.
+
+Jan 15
+Higher-order functions: is a function that expects a function and a set of data values as arguments.
+Examples in Python: .sorted
+Mapping: applies a function to each value in a sequence and returns a map object
+Predicate
+
+Jan 22
+def f(*stuff)
+    Any number of arguments, passed in as tuple
+
+def f2(**stuff):
+    Do stuff and stuff.
+    Any number of arguments, treated as dictionary.
+    Example:
+    f2(a = 1, b = 'two', c = [3])
+
+Functions are "first-class data objects" -- they can be arguments in functions.
+HOF can expect other functions as argumnets and/or return functions as values.
+Mapping function expects a funtion and a list of things to act on; returns Mapping Object ()
+Predicate = function that returns a Boolean (used in filter)
+
+5.2
+POPULAR STRING METHODS IN Python
+split
+join
+strip (also lstrip, rstrip)
+find, rfind,
+size,
+substring
+
+-----------------
+Jan 29
+Object identity and structural equivalence
+Programmers might need to see whether two variables refer to the EXACT SAME object or to DIFFERENT objects
+For example, you might want to determine whether one variable is an alias for another
+    The == operator returns True if the varaibles are aliases for the same object.
+    Unfortunately, == also returns True if the CONTENTS of the objects are equal.
+The first thing is called "object identity."
+And the second is called "structural equivalence."
+
+Use the keyword "is"
+objA = [1, 2, 3]
+objB = objA
+objC = list(objA)
+
+objB == objA #True
+objC == objA #True
+
+objB is objA #True
+objC is objB #False
+
+-------------------
+Feb. 5
+Test has 25 questions, all multiple choice
+It's on Feb 10 - Feb. 12
+
+strings are immutable objects. They are a primitive type. In their most basic form, they are a (list) of characters.
+list[0]
+list[-1]
+
+No questions about:
+replace, map, filter
+
+Definitely questions about:
+Scope
+Parameters
+Definiing a main function (Module 1, part 8)
+    if __name__ = "__main__":
+        main()
+
+List comprehensions (see slide 2-53)
+Truthiness
+copying objects (`copy` keyword)
+File I/O - what happens when you attempt to read from a file that doesn't exist.
+What happens if you try to write to a file that doesn't exist (it creates it).
+What happens if you open a file for writing that DOES exist (it wipes the contents and puts your cursor at the top).
+SORTING BY AN EMBEDDED KEEEEY (like when we got the tuples back) - Module 1, slide 29.
+def by_count_word(pari):
+eturn(pari[1], pair[0])
+
+sorted( key=by_count_word)
+
+NOTE for Julie: You can reference a global variable in a function; you just can't change it.
+so print(count) inside a function is A-OK, even if count is global.
+But count = count + 1 throws an error (exception?).
+
+Make sure you know how to supply  what a base case
+
+
+1.3, 4, 5, 8-9, 38, 39-40, 41-43, 46-49, 50-51
+2.32, 33-34, 53
+
+SLIDES TO GO OVER
+
+
+-----------------------
+Monday Feb 10
+GUI stuff (read book)
+Classes and constructors in Python.
+A constructor in python looks like:
+
+def __init__(self):
+
+
+Objects go on the heap, which is why you need self as the first parameter in any class method definition.
+It's to identify the object in memory.
+
+
+-----------------------
+Wed. Feb 19
+What is an instance in Python?
+What is an instance variable?
+
+
+------------------------
+Wed. Feb 24
+You will need to
+self.outputArea.setText(br.report())
+
+fList = [("Text Files", "*.txt")]
+filename = tkinter.filedialog.askopenfilename(parent=self, filetypes = flist)
+
+Dialog Boxes are popup windows that go away when you are finished with them.
+
+You must OVERRIDE body and apply
+The body methods builds the dialog.
+The apply method is called if OK is clicked.
+
+
+1. Inherit from EasyDialog
+2. Have your new dialog's __init__ call EasyDialog's __init__
+3. def body(self, parent): add components.
+4. def validate
+5. apply
+^NOt a complete list. Check the Slide before "Common Dialogs from the tkinter.messagebox module" slide.
+Body is the function where you add components to your dialog.
+Apply is where you extract data from dialog
+
+You can add widgets to dialog boxes just as you can with Easy Frame objects (except you use the body method instead of __init__)
+
+You can also override validate:
+If you return False, apply won't be called.
+
+You can call .setModified() and .modified()
+A signal to your main GUI logic.
+
+***
+
+Modify the friends and recommend function so that they take a variable number of friends to recommend for. Did that make sense?
+
+friends(name, nfriends = 2)
+
+Go learn what "bind" is in terms of "mouse and keyboard events that can be associated wtih Handler methods for window objects (bind)."
+
+------------------------
+Wed. Feb 26
+Class definition contains:
+* Definitions of all of the methods that its objects recognize
+* Descriptions of the data structures used to maintain the state of the object
+
+INSTANCE VARIABLES start with self.
+
+accessors = getters
+mutators = setters
+
+--------------------------
+
+Computer Science Notes 3/2/2020
+Project review –
+    • We need to update the original bookRecs code to be able to
+    use multiple friends
+        o Add a second variable passed into the friends function
+        called “nfriend = 2”
+        o Every time you use 2 in the friends function, replace
+        it with “nfriend”
+        o Update the recommend function where you call the
+        friends function to pass nfriends into the function,
+        as well as the variable you’re already passing.
+Notes – Module 4
+    • Rational Numbers
+        o Consist of two integer parts, a numerator and a
+        denominator (fractions!)
+        o Python has no built-in type for rational numbers
+            ▪ We need to build a new class (named “Rational”)
+            ▪ See Slide 18 of Module 4
+    • Equality and the _eq_ Method
+        o Not all objects are comparable using < or >, but any
+        two objects can be compared for == or !=
+        o See Slide 22
+    • Class Variables
+        o Belong to the class, not the object
+            ▪ Called “static” variables
+        o There are also static methods
+            ▪ Static methods have NO self
+
+
+---------------------------
+Wed. Mar 4
+
+---------------------------
+
+Mon. Mar 9
+UML diagram:
+    '-' means private
+    '+' means public
+
+
+NOTES ON COFFEE MACHINE
+CoffeeMachine = the "user interface"
+Accepts money
+Presents different beverage selections
+
+
+In the machine there is
+
+
+My questions:
+Which things are is-a?
+Which things are has-a?
+
+
+Selector has to know what the cashbox is, and it needs to be able to make function calls for the
+
+
+
+CoffeeMachine and Selector share one CashBox
+this.selector.cashBox
+
+haveYou method = do you have enough money
+
+Ways to make it FANCIER
+* Daily collected/totaled
+* Cancel button
+
+You have to pass CoffeeMachine's Cashbox into CoffeeMachine's selector:
+    class CoffeeMachine {
+        cashBox = CashBox(self)
+        selector = (self, self.cashBox) #not sure if this is correct syntax, but it's correct idea
+    }
+
+WARNING:
+Do not allow user to put in pennies or anything that is not half-dollars, quarters, dimes and nickles
+
+Product's make function is the one that spits out "Dispensing milk" or "Dispensing sugar"
+
+
+----------------------------
+
+Mon. Mar 11
+OOP Basics
+
+Data encapsulation: restricting manipulation of an object's state by external users to a set of method calls (classes)
+
+Inheritance: Allowing a class to automatically reuse/extend code of similar but more general classes (like we did with EasyFrame)
+
+Polymorphism: Allowing several related classes to use the same general method names
+    - But allow for variation in implementation!
+    e.g., Duck and Dog can extend base class Animal. Animal class can have a speak method that the subclasses implement
+
+
+PYTHON's syntax doesn't enforce data encapsulation
+    But classes allow us to group data and methods together
+Inheritance and polymorphism are built into Python
+
+
+Approximating Privacy
+*Classes allow you to define both _data_ and _methods_ for that data
+*User should primarily use a class's methods
+*We can use weird underscores to approximate privacy. E.g.:
+    class PrivateExample:
+        def __init__(self):
+            self.__myHiddenVal = 1
+            self.myPublicVal = 2
+    p = PrivateExample()
+    p.myPublicVal
+    # p.__myHiddenVal #will throw AttributeError
+    p._PrivateExample__myHiddenVal
+
+
+In Python all classes automatically extend the built-in object class
+It is possible to exand any existing class like so:
+class <new class name> (<Name of class it's extending>)
+
+To call a method in the parent class from within a method with teh same name in a sublcass:
+<parent class name>.<method name>(self, <other arguments>)
+
+UML diagram notes:
+Empty diamond = has a??
+Empty arrow = is a??
+
+Shapes as classes (slides show it)
+
+
+---------------------
+
+Abstract classes is a thing

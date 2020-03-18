@@ -1,0 +1,62 @@
+Summarizing What We Learn Each Day
+----------------------------------
+Jan 6
+Default params
+Optional params
+Comments as documentation
+
+Jan 8
+Conditionally running things, so your imports don't get crazy.
+if __name__ == "__main__":
+main() #wrap your "don't want everyone to run this" code in a function called main.
+Recursion
+Truthiness vs. Falsiness
+FALSY VALUES: 0, empty string, empty container, None, False
+Memory shape
+Code
+Data
+Heap
+Stack: for function calls
+
+Jan 13
+Recursion as applied to square roots and towers of Hanoi
+Command-line arguments
+sys.argv[0] = program name
+sys.argv[1] = containers other parameters if any.
+
+print('Program = ', sys.argv[0])
+for arg in sys.argv[1:]:
+print(arg)
+
+Modules, functions, classes, and objects all constitute their own scope.
+
+Jan 15
+Higher-order functions: is a function that expects a function and a set of data values as arguments.
+Examples in Python: .sorted
+Mapping: applies a function to each value in a sequence and returns a map object
+Predicate
+
+Jan 22
+def f(*stuff)
+Any number of arguments, passed in as tuple
+
+def f2(**stuff):
+Do stuff and stuff.
+Any number of arguments, treated as dictionary.
+Example:
+f2(a = 1, b = 'two', c = [3])
+
+Functions are "first-class data objects" -- they can be arguments in functions.
+HOF can expect other functions as argumnets and/or return functions as values.
+Mapping function expects a funtion and a list of things to act on; returns Mapping Object ()
+Predicate = function that returns a Boolean (used in filter)
+
+5.2
+POPULAR STRING METHODS IN Python
+split
+join
+strip (also lstrip, rstrip)
+find, rfind,
+size,
+substring
+
