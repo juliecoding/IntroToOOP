@@ -1,0 +1,41 @@
+EXAM 2
+
+25 questions
+Multiple Choice
+2 questions can have more than one answer.
+
+
+Slide Set 3:
+
+A template for all GUI programs
+Dialogs (1 of 2):
+    *Know when the function's body, apply, and validate are called.*
+
+    The structure of a GUI program is always the same, so there is a template:
+        from breezypythongui import EasyFrame
+        #other imports, if relevant
+
+        class ApplicationName(EasyFrame):
+            The __init__ method definition
+            Definitions of event handling methods
+
+        def main():
+            ApplicationName().mainloop()
+
+        //main name statement at the bottom
+
+You must override body and apply.
+    The body method builds the dialog (like the constructor does with EasyFrame)
+    The apply method is called if OK is clicked.
+
+You can also override validate:
+    If validate returns False, apply won't be called.
+
+You can call .setModified() and .modified()
+    A "signal" to the rest of your program.
+
+
+
+
+Slide Set 4:
+    Getting Inside

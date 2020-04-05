@@ -1,0 +1,225 @@
+Q1
+Run a GUI app by calling:
+ApplicationName.mainloop()
+ApplicationName = primary class of program.
+
+Q2
+Dialog boxes
+`body` method is called to create Dialog
+`apply` is called when you click OK
+`validate`, if you overwrote it, is called BEFORE apply
+    If validate returns False, `apply` won't be called.
+
+Q3
+Objects are abstractions that "package" their state and methods into a single entity that can be referenced with a name.
+
+Q4
+A class is like a blueprint for each of the objects of that class and contains:
+    Definitions of all of teh methods and its objects recognize
+    Descriptions of the data structures used to maintain the state of an object.
+
+Q5
+We call a constructor/__init__ function to get an object
+
+Q6
+SELF SELF SELF SELF SELF
+
+Q7
+If you don't overwrite print,
+print(object) will give you the object's location in memory.
+
+Q8
+Approximating privacy in Python:
+you set it on the class as self.__hiddenPropName
+You can access it outside the class as object._ClassName__hiddenPropName
+
+Q9
+A reference variable will refer to an object.
+An object may contain references to other objects. (self.a = B());
+
+Q10
+Objects get passed by reference. Primitives do not.
+
+Q11
+If you want things from the parent's constructor to be accessible on the child object, you need to call super().__init__
+You can do just the immmediate parent by calling parentClass.__init__() in the child.
+
+Q18
+If you don't have a method in a class, it will look up the tree for it. THIS INCLUDES INIT METHODS
+
+Q19
+prints A, A, A
+Again, if child classes properly init the parent, you can look up the chain for methods including __str__ or __eq__.
+
+==	equals	__eq__
+!=	not equals	__ne__
+<	less than	__lt__
+<=	less than or equal to	__le__
+>	greater than 	__gt__
+>=	greater than or equal to	__ge__
+
+
+QWhoKnows
+If a child class defines the same method as a parent class, even if you entered the parent to call the method, the child implementation is what gets called.
+
+
+"has a" = black diamond
+"is a" = arrow topped by empty triangle.
+
+
+Other Misc Notes
+A template for all GUI programs
+Dialogs (1 of 2):
+    Know when the function's body, apply, and validate are called.
+    Know how to definie a class, what an init method is.
+
+    DIALOG BOXES
+    Dialog boxes are popup windows that go away when you are finished with them.
+    You can create custom dialog boxes by inheriting from the EasyDialog class in breezypythongui.
+
+    The *body* method builds the dialog box (like the constructor does with EasyFrame)
+    The *apply* method is called if OK is clicked.
+
+
+
+
+
+    The structure of a GUI program is always the same, so there is a template:
+        from breezypythongui import EasyFrame
+        Other Imports
+
+        class ApplicationName(EasyFrame):       #IMPORTANT
+            The __init__ method definition      #IMPORTANT
+            Definitions of event handling methods
+
+        def main():
+            ApplicationName().mainloop()        #IMPORTANT
+
+        //main statement at the bottom
+
+dunder inits, including wtih parents.
+
+addLabel
+addButton
+
+Getting inside objects
+
+Programmers who use objects and classes know:
+    *The interface that can be used with a class (the collection of methods available to users of the class)
+    * The state of an object The current values in the data attributes of an object
+    * How to instantiate a class to obtain an object.
+
+Objects are abstractions
+    * "Package" their state and methods in a single entity that can be referenced with a name
+
+Class definition is like a blueprint for each of the objects of that class and contains:
+    * Definitions of all the methods that its objects recognize
+    * Descriptions of the data structures used to maintain the state of an object.
+
+bd = ButtonDemo() --> calls a dunder init. If it doesn't have one, looks up the tree and tries to find the dunder init.
+
+TWO EQUIVALENT LINES
+EasyFrame.__init__(self, title = "Button Demo")
+super().__init__(title = "Button Demo") // When called using super, self does not need to be passed.
+
+Docstrings can appear on three levels
+* Module (i.e., at the beginning of the file)
+* Just after class header (to describe its purpose)
+* After each method header
+
+help(ClassName) prints the doucmentation for the class and all its methods
+
+
+The __init__ method and Instance Variables
+* Constructor for the object
+* Sets up state for object
+* Included by most classes
+* Most classes include it
+* Runs automatically when user instantiates an object of the class
+Example: s = Student("Juan", 5)
+
+*Instance variables represent object _attributes_
+* The serve as storage for object state
+
+
+The __str__ method
+*Classes often include an __str__ method
+*Circle back. :P
+
+
+Comparison Methods
+==	equals	                    __eq__
+!=	not equals	                __ne__
+<	less than	                __lt__
+<=	less than or equal to	    __le__
+>	greater than 	            __gt__
+>=	greater than or equal to	__ge__
+
+
+
+Structuring classes with inheritance and polymorphism
+*Most OO languages require mastery of the following techniques
+* Data encapsulation: restricting manipulation of an object's state by external users to a set of method calls (classes)
+* Inheritance: Allowing a class to automatically reuse/extend code of similar but more general classes (like we did with EasyFrame)
+* Polymorphism: allowing several related classes to use the same general method names (But allow for variation in implementation)
+
+Python's syntax doesn't enforce data encapsulation, but it does allow us to group data and methods together.
+
+Inheritance and polymorphism are built into Python.
+
+
+Approximating Privacy
+    * self.__attr1 = __attr1
+
+class PrivateData:
+    def __init__(self, attr1, attr2):
+        self.__attr1 = attr1
+        self.__attr2 = attr2
+
+p = PrivateData(1, "two")
+print(vars(p)) # the attrs will show up obfuscated ('_PrivateData__attr1')
+
+try:
+    print(p.__attr1)
+except:
+    print("No such attribute attr1")
+
+print(p._PrivateData__attr1)
+
+
+Polymorphism in Python: How does it work?
+* Method Resolution Operator (a lookup order to find class attributes and methods)
+1) Looks in the class of the objects itself first to find the attribute/method
+2) If it's not there it will look in the base class
+
+All objects in Python ultimately inherit from the base Object class.
+
+Inheritance
+Allows things in common to be in one shared place
+But how do we place the interface in a shared superclass and their implementations in each respective class.
+
+Shape
+|-- Circle
+|-- Rectangle
+|-- Triangle
+
+
+Abstract Classes
+Abstract classs contain abstract methods for subclasses to override
+    * They need no function bodies
+    * They mainly exist as a placeholder to be overridden by subclasses
+We make the superclass abstract by subclassing abc.ABC
+We make methods abstract with the abc.abstractmethod decorator.
+
+We can have a mixed list of concrete (derived) shape objects.
+And call area and it will run properly.
+
+
+from abc, import ABC, abstractmethod
+class Classication(ABC):
+    @abstractmethod
+    def computer_pay(self):
+        pass
+
+
+
