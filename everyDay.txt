@@ -325,4 +325,217 @@ Shapes as classes (slides show it)
 
 ---------------------
 
-Abstract classes is a thing
+Abstract classes are a thing
+Import ABC and use decorators on abstract methods.
+
+------------------------------------------------
+
+Lists in Python are sequences of pointers
+    Each pointer refers to an object elsewhere in memory.
+    This is how Python supports lists with mixed types of entrieds
+
+Real ARRAYS don't do this.
+    They store the values (not pointers) contiguously in memory
+        But in python they can only store numeric values(
+            bool, int, float
+        )
+
+    For arrays...
+
+    Arrays use much less memory.
+
+
+
+    Basic types for array (b = btye)
+----------
+    Array supports most list operations, but not clear, copy, or sort.
+
+    numpy.ndarray
+        The add-on module numpy has support for mathematical array processing and data analysis.
+    It has an even _better_ array type: ndarray
+        You can operate on it all at once instead of only element-by-element.
+        Makes multi-dimensional arrays easy to use.
+
+
+Common numpy.ndarray Types
+TypeCode  | Meaning
+'?'       | bool
+'b'       | byte
+''        | int
+''        | float
+''        | complex
+
+Arrays have to be filled with all of the same type.
+
+
+WHEN TIME FOR QUESTIONS
+I don't understand setting the data type to byte. What if you have elements that can't be stored in a single byte? NOTE: maybe this is why they can't hold strings??
+Do all elements in the ndarray have to have the same number of elements themselves? Allowed or not? [ [1], [2, 3]]
+I still don't understand what array "shape" means?
+
+
+Slices of ndarrays don't make copies
+Use .copy() to make a copy
+    No need for a deep copy.
+
+TOOLS TO USE WITH ndarray
+
+linspace: Creates an evenly spaced array of numbers
+loadtxt: Reading numbers from a text file: this is easy to do with numpy's `loadtxt` method. It reads numbers in from a text file.
+
+A different module: the matplotlib
+
+glob.glob
+
+-----------------------------------------
+Monday, 13 April
+
+PROCESSES AND THREADS AND OTHER JOYS
+What is a process?
+    A program in execution.
+    The computer loads executable code into * main memory * and starts it by executing its first machine-language instruction.
+    Processes are independent of each other. They * don't share * memory.
+
+What's inside a process?
+------------------
+Blank space on top        MmHighestUserAddress
+
+Dynamic DLLs
+Env vars
+PEB
+
+Process Heap (everything needed at runtime: memory for code, varibles, stack frames for function calls)
+
+Thread 1 Stack
+Thread 2 Stack
+
+Mapped file(s) & Application data
+
+Executable
+------------------
+
+Python Processes
+Python is the program running in memory.
+It is _not_ your code.
+Python interprets your code.
+
+Source code -> interpreter -> running code
+See^, the Python interpreter is the running process.
+
+
+An Inside Look
+Source Code --> BEGIN INTERPRETER BOX Compiler --> Byte code --> Virtual machine END INTERPRETER BOX --> Running code
+                                                                    ^\-Library modules
+
+
+Launching Other Processes from Python
+You can launch any executable with the subprocess module
+    Your process waits until it finishes (no parallelism)
+You can launch another Python process with the multiprocessing module.
+    You pass it a function to start executing its new process.
+    It runs concurrently with your Python process.
+        It is a separate entity as far as the operating system (Windows/Mac OS/Linux) is concerned.
+        If your machine has multiple CPUs/cores, it runs simultaneously with your process.
+    You can wait for it, or not.
+
+
+The `subprocess` Module
+The output of the launched process will appear as output in your process.
+Or, you can receive the input into your process and do what you want with it.
+
+See process1.py (Mac and Windows)
+
+
+The `multiprocess` Module
+The launched processes run * independently * of your process.
+    And runs * simultaneously * with your process.
+
+Compare findprimes.py and findprimes2.py
+
+
+Launching Processes Manually - See multiproc1.py
+multiprocessing.Process
+    You pass it a function to executable
+        Either a lambda or function defined at module level
+    Typical launch overhead: Java: 500ms, Python: 150ms, Go: 50ms
+
+    Process.start:
+        launches the process
+    Process.join:
+        waits for the process to complete
+
+
+CONCURRENCY
+    A program can have many tasks
+    Some tasks may be separable
+        Meaning one does not have to wait for the other to finish
+        They could run concurrently
+    Web servers do this
+        Every request is handled separately from other requests.
+
+    Concurrency is a way to organize tasks
+        Even if your computer has only one CPU (or "core")
+        If only one machine instruction can run at a time on our computer, you can still keep tasks "logically separate" in how you run them via threads
+
+    Parallelism = Concurrency + Simultaneous Execution
+        Tasks running on separate CPUs/cores at the same time
+
+
+Concurrency vs. Parallelism
+    Quote from Rob Pike, Co-inventor of Go:
+
+    "Concurrency is about dealing with lots of things at once.
+    Parallelism is about doing lots of things at once.
+    Not the same, but related.
+    One is about structure, one is about execution.
+    Concurrency provides a way to structure a solution to solve a problem that may (but not necessarily) be parallelizable"
+
+
+Concurrency on a Single Processor              See findprimes3.py
+    Accomplished through threads.
+        A thread is a * separate path of execution * in a single, running program.
+    The computer's OS gives each thread a * "time slice" *
+    Then it rotates through all the threads, giving each a time slice
+        Can give the appearance of parallelism to the human observer
+    Each thread has its own "context"
+        So it can pick up where it left off when it was previously interrupted by the O/S
+
+
+I/O-bound vs. CPU-bound Operations and the GIL
+    Python has a Global Interpreter Lock (GIL)
+        Only * one thread * is allowed to run at a time.
+    What?!?
+        Why have threads if they always have to take turns?
+    Answer #1: They are good for designing separable tasks
+    Answer #2: They are fine for I/O-bound tasks:
+        Input and output operations always do some waiting anyway (because storage and network connections are slower than main memory)
+        When a thread is doing input or output it's "blocked", so Python interleaves its execution with other threads, allowing other threads to have a turn while the I/O thread is waiting.
+    If your program is mainly using the CPU instead of doing I/O, then threads slow things down
+        Hence the need for multiple processes running simultaneously
+
+
+Blocking Operations                         See iobound.py -- could not find in class files
+    Threads sometimes sit idle. They "block", waiting ...
+        For user input (humans are slow)
+        For an I/O task to complete
+        For a sleep cycle to expire
+        For a complex computation
+
+    But modern computers have multiple processors/cores
+        hence the push for parallelism
+        to keep the processors busy as much as possible
+        to speed up throughput
+
+
+Producer-Consumer Execution Model                   See prodcons.py, prodcons1.py, prodcons2.py
+    A common scenario that shows how threads/processes can communicate
+    Typically use special queues
+        Producers insert data into the queue
+        Consumers remove data from the queue
+
+    There can be many producers and consumers simultaneously
+
+    take_order ----> prep_order ----> serve_order
+                q1               q2
+
+
